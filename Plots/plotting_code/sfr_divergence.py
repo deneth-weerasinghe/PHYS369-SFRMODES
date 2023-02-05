@@ -1,10 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
+import os
+
+path = os.path.dirname(os.path.dirname(os.getcwd()))  # obtains path of top-level directory
 
 
-def data_reader():
-    with open("data/SFR_comparison.csv", newline='') as csvfile:
+def plot():
+    with open(path + "\data\csv\sample_data.csv", newline='') as csvfile:
         reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
         first_row = next(reader)  # prints the first row, as reference for column names
         print(first_row)
@@ -52,5 +55,4 @@ def plot_sfr(x, y):
     plt.ylabel("Stellar Formation Rate")
     plt.show()
 
-
-data_reader()
+plot()
