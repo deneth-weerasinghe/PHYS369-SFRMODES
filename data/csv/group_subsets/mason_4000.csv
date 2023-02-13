@@ -1,4 +1,4 @@
-col1,SourceID,RA,Dec,Stage 1,Stage 2,Stage 3,Stage 4
+col1,SourceID,RA,Dec,isStageOne,isStageTwo,isStageThree,isStageFour
 17606,4001302862830,149.69542280000005,2.4874457000000003,true,false,false,false
 17607,4001302862857,149.694175,2.4900108,true,false,false,false
 17608,4001302862980,149.727608,2.4973174,false,false,true,false

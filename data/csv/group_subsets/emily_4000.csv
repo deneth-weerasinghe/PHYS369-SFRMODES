@@ -1,4 +1,4 @@
-col1,SourceID,RA,Dec,stage 1 of merger,stage 2 of merger,stage 3 of merger,stage 4 of merger
+col1,SourceID,RA,Dec,isStageOne,isStageTwo,isStageThree,isStageFour
 0,4000704963129,187.9838073,58.01052370000001,false,false,false,true
 1,4000704963271,187.9803228,58.0264814,true,false,false,false
 2,4000704963422,187.9381812,58.03994920000001,true,false,false,false
