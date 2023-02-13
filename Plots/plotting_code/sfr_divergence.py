@@ -55,4 +55,5 @@ def plot_sfr(x, y):
     plt.ylabel("Stellar Formation Rate")
     plt.show()
 
+
 plot()
