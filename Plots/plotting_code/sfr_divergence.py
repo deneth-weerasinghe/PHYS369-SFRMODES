@@ -54,7 +54,5 @@ def plot_sfr(x, y):
     plt.xlabel("Median Stellar Mass")
     plt.ylabel("Stellar Formation Rate")
     plt.show()
-print('Hello WORLD')
-print(path)
-print('YOOOOOOOOOOOOOOOOOOO')
+
 plot()
