@@ -1,6 +1,9 @@
 import pandas as pd
 import os
-
+'''
+Script to split the full COSMOS dataset into two halves for easier git handling.
+Since I can't push the original file, this script won't work unless I re-download the dataset from IRSA.
+'''
 path = os.getcwd()  # obtains path of top-level directory
 
 def full_COSMOS_split():
