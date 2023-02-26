@@ -5,11 +5,11 @@ import numpy as np
 
 path = os.getcwd()
 
-def abs_mag_z():
+def data_gather():
 
     data = []
 
-    with open(path + '/data/csv/COSMOS_survey/COSMOS_0.csv', newline='') as csvfile:
+    with open(path + '/data/csv/COSMOS_survey/COSMOS_0_OUT.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
 
         next(reader)
@@ -17,6 +17,7 @@ def abs_mag_z():
         Columns extracted:
 
         Index | Column Name | Notes
+        2 | type | 0 = galaxy, 1 = star, 2 = X-ray source
         3 | zpdf | redshift, mean value
         4 | zpdf_l68 | z lower limit, 68% confidence
         5 | zpdf_h68 | z upper limit, 68% confidence
@@ -26,9 +27,75 @@ def abs_mag_z():
 
         '''
         for i, row in enumerate(reader):
-            data.append([row[3], row[4], row[5], row[6], row[7], row[8]])
-            if i == 4:
+            if i == 1000:
                 break
-        print(data)
+            if row[2] == 0:
+                data.append([row[3], row[4], row[5], row[6], row[7], row[8]])
+    return data
 
-abs_mag_z()
+def generate_subplots(data):
+    '''
+    Generates 3 plots:
+    * pdf with error bars
+    * pdf with no error bars
+    * chi^2 with no error bars
+    '''
+
+    z_pdf = [i[0] for i in data]
+    z_chi2 = [i[3] for i in data]
+    abs_mag = [i[5] for i in data]
+    lower_err = [i[0] - i[1] for i in data]
+    upper_err = [i[2] - i[0] for i in data]
+    z_err = [lower_err, upper_err]
+
+    # plot with error bars
+    plt.subplot(311)
+    plt.errorbar(z_pdf, abs_mag, xerr=z_err, fmt='o', c='red', ecolor='black', label='plot1')
+    plt.title('Absolute i-band magnitude against pdf redshift, with errors')
+    plt.xlabel('Redshift')
+    plt.ylabel('Abs i-band magnitude')
+    ax = plt.gca()
+    ax.invert_yaxis()
+
+    # plot with no error bars
+    plt.subplot(312)
+    plt.scatter(z_pdf, abs_mag, c='red', label='plot2')
+    plt.title('Absolute i-band magnitude against pdf redshift')
+    plt.xlabel('Redshift')
+    plt.ylabel('Abs i-band magnitude')
+    ax = plt.gca()
+    ax.invert_yaxis()
+
+    # plot with chi^2
+    plt.subplot(313)
+    plt.scatter(z_chi2, abs_mag, c='red', label='plot3')
+    plt.title('Absolute i-band magnitude against chi^2 redshift')
+    plt.xlabel('Redshift')
+    plt.ylabel('Abs i-band magnitude')
+    ax = plt.gca()
+    ax.invert_yaxis()
+
+    plt.tight_layout()
+    plt.show()
+
+def generate_plot(data):
+    '''
+    Only generates pdf with no error bars
+    '''
+
+    z_pdf = [i[0] for i in data]
+    abs_mag = [i[5] for i in data]
+
+    plt.scatter(z_pdf, abs_mag, c='red', label='mainplot')
+    plt.title('Absolute i-band magnitude of the first 100 COSMOS objects against redshift')
+    plt.xlabel('Redshift')
+    plt.ylabel('Abs i-band magnitude')
+    ax = plt.gca()
+    ax.invert_yaxis()
+
+    plt.show()
+
+
+mydata = data_gather()
+# generate_subplots(mydata)
+generate_plot(mydata)
