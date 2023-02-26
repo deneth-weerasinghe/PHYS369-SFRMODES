@@ -9,7 +9,6 @@ def cosmos_count():
         writer = csv.writer(w)
         
         writer.writerow(next(reader))  # writes the heading row
-        
         count = 0
 
         for row in reader:
