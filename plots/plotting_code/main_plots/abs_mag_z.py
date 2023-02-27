@@ -29,7 +29,7 @@ def data_gather(sample_size=100):
             for i, row in enumerate(reader):
                 if i == sample_size:
                     break
-                if row[2] == 0:
+                if row[2] == 0:  # checks if the source is a galaxy
                     data.append([row[3], row[4], row[5], row[6], row[7], row[8]])
     return data
 
