@@ -4,33 +4,48 @@ import matplotlib.pyplot as plt
 
 path = os.getcwd()
 
-def data_gather(sample_size=100):
+def data_gather():
 
     data = []
 
-    for j in range(0, 2):
-        with open(path + f'/data/csv/COSMOS_survey/COSMOS_{j}_OUT.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
+    with open(path + '/data/csv/group_cosmos_with_main_cosmos_matches_OUT2.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
 
-            next(reader)
-            '''
-            Columns extracted:
+        next(reader)  # skips headers
 
-            Index | Column Name | Notes
-            2 | type | 0 = galaxy, 1 = star, 2 = X-ray source
-            3 | zpdf | redshift, mean value
-            4 | zpdf_l68 | z lower limit, 68% confidence
-            5 | zpdf_h68 | z upper limit, 68% confidence
-            6 | zminchi2 | z value from chi^2
-            7 | chi2_best | reduced chi^2 for zminchi^2
-            8 | m_i | absolute magnitude in i band
+        '''
+        Columns extracted
 
-            '''
-            for i, row in enumerate(reader):
-                if i == sample_size:
-                    break
-                if row[2] == 0:  # checks if the source is a galaxy
-                    data.append([row[3], row[4], row[5], row[6], row[7], row[8]])
+        Note the _1 indicates properties of the primary object in the merger
+        i.e. the more massive one while _2 indicates the secondary object.
+
+        Index | Column Name | Notes
+        4 | isStageOne | indicates merger stage, 1 for true and 0 for false
+        5 | isStageTwo | ^
+        6 | isStageThree | ^
+        7 | isStageFour | ^
+        10 | type_1 | 0 = galaxy, 1 = star, 2 = X-ray source
+        11 | zpdf_1 | redshift, mean value
+        12 | zpdf_l68_1 | z lower limit, 68% confidence
+        13 | zpdf_h68_1 | z upper limit, 68% confidence
+        14 | zminchi2_1 | z value from chi^2
+        15 | chi2_best_1 | reduced chi^2 for zminchi^2
+        16 | m_i_1 | absolute magnitude in i band
+        30 | type_2 | 0 = galaxy, 1 = star, 2 = X-ray source (secondary)
+        '''
+
+        for row in reader:
+            if row[4] == 1:  # creates new field storing which stage of the merger it is
+                stage = 0
+            elif row[5] == 1:
+                stage = 1
+            elif row[6] == 1:
+                stage = 2
+            elif row[7] == 1:
+                stage = 3
+
+            if row[10] == 0 and row[30] == 0:  # checks if both objects in the merger are galaxies
+                data.append([row[11], row[12], row[13], row[14], row[15], row[16], stage])
     return data
 
 def generate_subplots(data):
@@ -78,7 +93,7 @@ def generate_subplots(data):
     plt.tight_layout()
     plt.show()
 
-def generate_plot(data, n):
+def generate_plot(data):
     '''
     Only generates pdf with no error bars
     '''
@@ -86,8 +101,8 @@ def generate_plot(data, n):
     z_pdf = [i[0] for i in data]
     abs_mag = [i[5] for i in data]
 
-    plt.scatter(z_pdf, abs_mag, c='red', label='mainplot')
-    plt.title(f'Absolute i-band magnitude of the first {n} COSMOS objects against redshift')
+    plt.scatter(z_pdf, abs_mag, c='red', s=1, label='mainplot')
+    plt.title(f'Absolute i-band magnitude of primary galaxy in selected mergers in COSMOS against redshift')
     plt.xlabel('Redshift')
     plt.ylabel('Abs i-band magnitude')
     ax = plt.gca()
@@ -95,8 +110,8 @@ def generate_plot(data, n):
 
     plt.show()
 
-n = 1000
-mydata = data_gather(sample_size=n)
-print(len(mydata))
+
+mydata = data_gather()
+# print(len(mydata))
 # generate_subplots(mydata)
-# generate_plot(mydata, n)
+generate_plot(mydata)

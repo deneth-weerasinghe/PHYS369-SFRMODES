@@ -37,6 +37,11 @@ def rewrite_csv():
                         new_row[i] = row[i+20]
                     elif i > 27:
                         new_row[i] = row[i-20]
+            for j in range(4, 8):
+                if new_row[j] == 'true':
+                    new_row[j] = 1
+                elif new_row[j] == 'false':
+                    new_row[j] = 0
             writer.writerow(new_row)
 
 
