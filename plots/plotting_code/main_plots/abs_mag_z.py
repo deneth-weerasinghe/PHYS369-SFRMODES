@@ -44,8 +44,8 @@ def data_gather():
             elif row[7] == 1:
                 stage = 3
 
-            if row[10] == 0 and row[30] == 0:  # checks if both objects in the merger are galaxies
-                data.append([row[11], row[12], row[13], row[14], row[15], row[16], stage])
+            # if row[10] == 0 and row[30] == 0:  # checks if both objects in the merger are galaxies
+            data.append([row[11], row[12], row[13], row[14], row[15], row[16], stage])
     return data
 
 def generate_subplots(data):
@@ -97,16 +97,24 @@ def generate_plot(data):
     '''
     Only generates pdf with no error bars
     '''
+    n = len(data)
 
     z_pdf = [i[0] for i in data]
     abs_mag = [i[5] for i in data]
 
-    plt.scatter(z_pdf, abs_mag, c='red', s=1, label='mainplot')
-    plt.title(f'Absolute i-band magnitude of primary galaxy in selected mergers in COSMOS against redshift')
+    z_low_err = [i[0] - i[1] for i in data]
+    z_upp_err = [i[2] - i[0] for i in data]
+    z_err = [z_low_err, z_upp_err]
+
+    # plt.scatter(z_pdf, abs_mag, c='red',s=1, label='mainplot')
+    plt.errorbar(z_pdf, abs_mag, xerr=z_err, fmt='.', ms=2,c='red', elinewidth=1, ecolor='black')
+    plt.title(f'Absolute i-band magnitude of primary galaxy in selected mergers \nin COSMOS against redshift')
     plt.xlabel('Redshift')
     plt.ylabel('Abs i-band magnitude')
+    plt.text(3, -12, f'n={n}', fontsize=25)
     ax = plt.gca()
     ax.invert_yaxis()
+    
 
     plt.show()
 
