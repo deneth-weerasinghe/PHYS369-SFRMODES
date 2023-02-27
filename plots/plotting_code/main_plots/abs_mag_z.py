@@ -31,6 +31,8 @@ def data_gather():
         14 | zminchi2_1 | z value from chi^2
         15 | chi2_best_1 | reduced chi^2 for zminchi^2
         16 | m_i_1 | absolute magnitude in i band
+        17 | m_i_1 | absolute magnitude in z band
+        18 | m_i_1 | absolute magnitude in k band
         30 | type_2 | 0 = galaxy, 1 = star, 2 = X-ray source (secondary)
         '''
 
@@ -45,7 +47,7 @@ def data_gather():
                 stage = 3
 
             # if row[10] == 0 and row[30] == 0:  # checks if both objects in the merger are galaxies
-            data.append([row[11], row[12], row[13], row[14], row[15], row[16], stage])
+            data.append([row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], stage])
     return data
 
 def generate_subplots(data):
@@ -100,18 +102,22 @@ def generate_plot(data):
     n = len(data)
 
     z_pdf = [i[0] for i in data]
-    abs_mag = [i[5] for i in data]
+    i_mag = [i[5] for i in data]
+    z_mag = [i[6] for i in data]
+    k_mag = [i[7] for i in data]
 
     z_low_err = [i[0] - i[1] for i in data]
     z_upp_err = [i[2] - i[0] for i in data]
     z_err = [z_low_err, z_upp_err]
 
-    # plt.scatter(z_pdf, abs_mag, c='red',s=1, label='mainplot')
-    plt.errorbar(z_pdf, abs_mag, xerr=z_err, fmt='.', ms=2,c='red', elinewidth=1, ecolor='black')
-    plt.title(f'Absolute i-band magnitude of primary galaxy in selected mergers \nin COSMOS against redshift')
+    plt.scatter(z_pdf, i_mag, c='red',s=1, label='i-mag')
+    plt.scatter(z_pdf, z_mag, c='blue',s=1, label='z-mag')
+    plt.scatter(z_pdf, k_mag, c='green',s=1, label='k-mag')
+    plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
     plt.xlabel('Redshift')
-    plt.ylabel('Abs i-band magnitude')
+    plt.ylabel('Absolute magnitude')
     plt.text(3, -12, f'n={n}', fontsize=25)
+    plt.legend()
     ax = plt.gca()
     ax.invert_yaxis()
     
