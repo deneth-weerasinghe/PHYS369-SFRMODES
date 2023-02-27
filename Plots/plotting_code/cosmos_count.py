@@ -12,7 +12,7 @@ def cosmos_count():
         count = 0
 
         for row in reader:
-            if (148.0 < float(row[1]) < 152.0) and (1.3 < float(row[2]) < 3.5):  # checks if coords match range of COSMOS survey
+            if (148.0 < float(row[2]) < 152.0) and (1.3 < float(row[3]) < 3.5):  # checks if coords match range of COSMOS survey
                 count += 1
                 writer.writerow(row)
         print(count)
