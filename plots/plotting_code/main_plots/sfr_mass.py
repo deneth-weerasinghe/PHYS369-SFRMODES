@@ -79,7 +79,7 @@ def generate_plot(data):
         # plt.errorbar(mass_med, sfr_med, xerr=mass_err, yerr=sfr_err, fmt='o', c=colours[j], markersize=1, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
         plt.scatter(mass_med, sfr_med, s=5, c=colours[j], label=f'Stage {j+1}')
     
-    plt.title('Star formation rates in COSMOS mergers against stellar mass')
+    plt.title('Star formation rates in each stage of mergers within the COSMOS survey')
     plt.xlabel('log Stellar Mass')
     plt.ylabel('log Star Formation Rate')
     plt.legend()
