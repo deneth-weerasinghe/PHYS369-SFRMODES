@@ -61,9 +61,10 @@ def generate_plot(data):
             stage_threes.append(n)
         elif g[8] == 4:
             stage_fours.append(n)
+
     indices = [stage_ones, stage_twos, stage_threes, stage_fours]
-    
     colours = ['red', 'blue', 'green', 'purple']
+
     for j in range(0, 4):
         mass_med = [data[i][0] for i in indices[j]]
         mass_low_err = [data[i][0] - data[i][1] for i in indices[j]]
