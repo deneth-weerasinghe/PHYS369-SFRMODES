@@ -21,14 +21,14 @@ def data_gather():
         5 | isStageTwo | ^
         6 | isStageThree | ^
         7 | isStageFour | ^
-        11 | mass_med | stellar mass from the pdf
-        12 | mass_med_min68 | stellar mass lower limit, 68% confidence
-        13 | mass_med_max68 | stellar mass upper limit, 68% confidence
-        14 | mass_best | stellar mass from chi^2
-        15 | sfr_med | star formation rate from the pdf
-        16 | sfr_med_min68 | star formation rate lower limit, 68% confidence 
-        17 | sfr_med__max68 | star formation rate upper limit, 68% confidence
-        18 | sfr_best | star formation rate from chi^2
+        19 | mass_med | stellar mass from the pdf
+        20 | mass_med_min68 | stellar mass lower limit, 68% confidence
+        21 | mass_med_max68 | stellar mass upper limit, 68% confidence
+        22 | mass_best | stellar mass from chi^2
+        23 | sfr_med | star formation rate from the pdf
+        24 | sfr_med_min68 | star formation rate lower limit, 68% confidence 
+        25 | sfr_med__max68 | star formation rate upper limit, 68% confidence
+        26 | sfr_best | star formation rate from chi^2
         '''
         for row in reader:
             if row[4] == 1:  # creates new field storing which stage of the merger it is
@@ -39,7 +39,7 @@ def data_gather():
                 stage = 3
             elif row[7] == 1:
                 stage = 4
-            data.append([row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], stage])
+            data.append([row[19], row[20], row[21], row[22], row[23], row[24], row[25], row[26], stage])
     return data
 
 
@@ -66,15 +66,17 @@ def generate_plot(data):
     colours = ['red', 'blue', 'green', 'purple']
 
     for j in range(0, 4):
-        mass_med = [data[i][0] for i in indices[j]]
+        mass_med = [data[i][0] for i in indices[j]]  # List of x-axis values
         mass_low_err = [data[i][0] - data[i][1] for i in indices[j]]
         mass_upp_err = [data[i][2] - data[i][0] for i in indices[j]]
-        sfr_med = [data[i][4] for i in indices[j]]
+        sfr_med = [data[i][4] for i in indices[j]]  # List of y-axis values
         sfr_low_err = [data[i][4] - data[i][5] for i in indices[j]]
         sfr_upp_err = [data[i][6] - data[i][4] for i in indices[j]]
 
+        # Errors
         mass_err = [mass_low_err, mass_upp_err]
         sfr_err = [sfr_low_err, sfr_upp_err]
+        # print(mass_med[0])
 
         
         # plt.errorbar(mass_med, sfr_med, xerr=mass_err, yerr=sfr_err, fmt='o', c=colours[j], markersize=1, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
