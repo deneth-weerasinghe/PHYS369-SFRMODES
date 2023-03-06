@@ -138,13 +138,13 @@ def generate_plot_z_limit(old_data, z_limit=1.5):
 
     ax3 = plt.subplot(223, sharex=ax1, sharey=ax1)
     plt.plot(plt_data[2][0], plt_data[2][1], ms=3, linestyle='', marker=symbols[2], alpha=0.4, fillstyle='none' ,c=colours[2], label=f'Stage {3}')
-    plt.xlabel(r'log $M_{\bigstar}$')
+    plt.xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
     plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
     plt.legend()
 
     ax4 = plt.subplot(224, sharex=ax1, sharey=ax1)
     plt.plot(plt_data[3][0], plt_data[3][1], ms=3, linestyle='', marker=symbols[3], alpha=0.4, fillstyle='none' ,c=colours[3], label=f'Stage {4}')
-    plt.xlabel(r'log $M_{\bigstar}$')
+    plt.xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
     plt.tick_params('y', labelleft=False)
     plt.legend()
 
