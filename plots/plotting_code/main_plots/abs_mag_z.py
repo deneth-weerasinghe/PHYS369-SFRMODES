@@ -8,7 +8,7 @@ def data_gather():
 
     data = []
 
-    with open(path + '/data/csv/group_cosmos_with_main_cosmos_matches_OUT2.csv', newline='') as csvfile:
+    with open(path + '/PHYS369-SFRMODES/data/csv/group_cosmos_with_main_cosmos_matches_OUT2.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
 
         next(reader)  # skips headers
@@ -124,8 +124,35 @@ def generate_plot(data):
 
     plt.show()
 
+def generate_i_band(data):
+    '''
+    Only generates pdf with no error bars
+    '''
+    n = len(data)
+
+    z_pdf = [i[0] for i in data]
+    i_mag = [i[5] for i in data]
+    z_mag = [i[6] for i in data]
+    k_mag = [i[7] for i in data]
+
+    z_low_err = [i[0] - i[1] for i in data]
+    z_upp_err = [i[2] - i[0] for i in data]
+    z_err = [z_low_err, z_upp_err]
+
+    plt.errorbar(z_pdf, i_mag, xerr=z_err, c='red',fmt='.', markersize=5, ecolor='black', elinewidth=1,label='i-mag')
+    plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
+    plt.xlabel('Redshift')
+    plt.ylabel('Absolute magnitude')
+    plt.text(3, -12, f'n={n}', fontsize=25)
+    plt.legend()
+    ax = plt.gca()
+    ax.invert_yaxis()
+    
+
+    plt.show()
 
 mydata = data_gather()
 # print(len(mydata))
 # generate_subplots(mydata)
-generate_plot(mydata)
+# generate_plot(mydata)
+generate_i_band(mydata)
