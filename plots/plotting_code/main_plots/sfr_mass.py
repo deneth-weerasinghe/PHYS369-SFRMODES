@@ -47,41 +47,13 @@ def data_gather():
 
 
 
-def generate_plot(data):
-    stage_ones = []  # list containing all indices corresponding to stage 1
-    stage_twos = []  # likewise for stage 2
-    stage_threes = []  # ^
-    stage_fours = []  # ^
+def generate_plot(data, n):
 
-    for n, g in enumerate(data):  # generate the above lists
-        if g[8] == 1:
-            stage_ones.append(n)
-        elif g[8] == 2:
-            stage_twos.append(n)
-        elif g[8] == 3:
-            stage_threes.append(n)
-        elif g[8] == 4:
-            stage_fours.append(n)
-
-    indices = [stage_ones, stage_twos, stage_threes, stage_fours]
     colours = ['red', 'blue', 'green', 'purple']
 
     for j in range(0, 4):
-        mass_med = [data[i][0] for i in indices[j]]  # List of x-axis values
-        mass_low_err = [data[i][0] - data[i][1] for i in indices[j]]
-        mass_upp_err = [data[i][2] - data[i][0] for i in indices[j]]
-        sfr_med = [data[i][4] for i in indices[j]]  # List of y-axis values
-        sfr_low_err = [data[i][4] - data[i][5] for i in indices[j]]
-        sfr_upp_err = [data[i][6] - data[i][4] for i in indices[j]]
-
-        # Errors
-        mass_err = [mass_low_err, mass_upp_err]
-        sfr_err = [sfr_low_err, sfr_upp_err]
-        # print(mass_med[0])
-
-        
-        # plt.errorbar(mass_med, sfr_med, xerr=mass_err, yerr=sfr_err, fmt='o', c=colours[j], markersize=1, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
-        plt.scatter(mass_med, sfr_med, s=5, c=colours[j], label=f'Stage {j+1}')
+        plt.errorbar(data[j][0], data[j][1], xerr=data[j][2], yerr=data[j][3], fmt='o', c=colours[j], markersize=1, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
+        # plt.scatter(mass_med, sfr_med, s=5, c=colours[j], label=f'Stage {j+1}')
     
     plt.title('Star formation rates in each stage of mergers within the COSMOS survey')
     plt.xlabel('log Stellar Mass')
@@ -90,39 +62,14 @@ def generate_plot(data):
     plt.legend()
     plt.show()
 
-def generate_plot_z_limit(old_data, z_limit=1.5):
+def generate_plot_z_limit(data, n):
 
-    data = []
+    plt_data = []
+    for i in data:
+        plt_data.append([i[0], i[1]])
 
-    for i in old_data:
-        if i[9] < z_limit:
-            data.append(i)
-
-
-    stage_ones = []  # list containing all indices corresponding to stage 1
-    stage_twos = []  # likewise for stage 2
-    stage_threes = []  # ^
-    stage_fours = []  # ^
-
-    for n, g in enumerate(data):  # generate the above lists
-        if g[8] == 1:
-            stage_ones.append(n)
-        elif g[8] == 2:
-            stage_twos.append(n)
-        elif g[8] == 3:
-            stage_threes.append(n)
-        elif g[8] == 4:
-            stage_fours.append(n)
-
-    indices = [stage_ones, stage_twos, stage_threes, stage_fours]
     colours = ['red', 'blue', 'green', 'purple']
-
     symbols = ['o', '^', 's', 'D']
-    plt_data=[]
-    for j in range(0, 4):
-        mass_med = [data[i][0] for i in indices[j]]  # List of x-axis values
-        sfr_med = [data[i][4] for i in indices[j]]  # List of y-axis values
-        plt_data.append([mass_med, sfr_med])
 
     ax1 = plt.subplot(221)
     plt.plot(plt_data[0][0], plt_data[0][1], linestyle='', ms=3, marker=symbols[0], alpha=0.4, fillstyle='none' ,c=colours[0], label=f'Stage {1}')
@@ -148,12 +95,60 @@ def generate_plot_z_limit(old_data, z_limit=1.5):
     plt.tick_params('y', labelleft=False)
     plt.legend()
 
-    plt.suptitle(f'Star formation rates against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5, n={n}')
+    plt.suptitle(f'Star formation rates of primary galaxy against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5, n={n}')
     plt.ylim(-6.5, 3.5)
     plt.show()
 
-mydata = data_gather()
-# print(len(mydata))
-# generate_plot(mydata)
-generate_plot_z_limit(mydata)
+def generate_variables(old_data, isFiltering=False, z_lim=None):
+
+    if isFiltering:
+        data = []
+        for i in old_data:  # filters out data that doesn't fall in the z volume bin
+            if i[9] < z_lim:
+                data.append(i)
+    
+    data = old_data
+    stage_ones = []  # list containing all indices corresponding to stage 1
+    stage_twos = []  # likewise for stage 2
+    stage_threes = []  # ^
+    stage_fours = []  # ^
+
+    for n, g in enumerate(data):  # generate the above lists
+        if g[8] == 1:
+            stage_ones.append(n)
+        elif g[8] == 2:
+            stage_twos.append(n)
+        elif g[8] == 3:
+            stage_threes.append(n)
+        elif g[8] == 4:
+            stage_fours.append(n)
+
+    indices = [stage_ones, stage_twos, stage_threes, stage_fours]
+
+    output = []
+    for j in range(0, 4):  #  generates lists of data for each of the four stages
+        mass_med = [data[i][0] for i in indices[j]]  # List of x-axis values
+        mass_low_err = [data[i][0] - data[i][1] for i in indices[j]]
+        mass_upp_err = [data[i][2] - data[i][0] for i in indices[j]]
+        sfr_med = [data[i][4] for i in indices[j]]  # List of y-axis values
+        sfr_low_err = [data[i][4] - data[i][5] for i in indices[j]]
+        sfr_upp_err = [data[i][6] - data[i][4] for i in indices[j]]
+
+        mass_err = [mass_low_err, mass_upp_err]
+        sfr_err = [sfr_low_err, sfr_upp_err]
+        output.append([mass_med, sfr_med, mass_err, sfr_err])
+    
+    return output
+
+
+raw_data = data_gather()
+
+num = len(raw_data)
+
+plot_data = generate_variables(raw_data)
+
+generate_plot(plot_data, num)
+
+plot_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
+generate_plot_z_limit(plot_data, num)
 
