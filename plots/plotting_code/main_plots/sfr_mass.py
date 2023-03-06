@@ -118,27 +118,38 @@ def generate_plot_z_limit(old_data, z_limit=1.5):
     colours = ['red', 'blue', 'green', 'purple']
 
     symbols = ['o', '^', 's', 'D']
+    plt_data=[]
     for j in range(0, 4):
         mass_med = [data[i][0] for i in indices[j]]  # List of x-axis values
-        mass_low_err = [data[i][0] - data[i][1] for i in indices[j]]
-        mass_upp_err = [data[i][2] - data[i][0] for i in indices[j]]
         sfr_med = [data[i][4] for i in indices[j]]  # List of y-axis values
-        sfr_low_err = [data[i][4] - data[i][5] for i in indices[j]]
-        sfr_upp_err = [data[i][6] - data[i][4] for i in indices[j]]
+        plt_data.append([mass_med, sfr_med])
 
-        # Errors
-        mass_err = [mass_low_err, mass_upp_err]
-        sfr_err = [sfr_low_err, sfr_upp_err]
-        # print(mass_med[0])
+    ax1 = plt.subplot(221)
+    plt.plot(plt_data[0][0], plt_data[0][1], linestyle='', ms=3, marker=symbols[0], alpha=0.4, fillstyle='none' ,c=colours[0], label=f'Stage {1}')
+    plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
+    plt.tick_params('x', labelbottom=False)
+    plt.legend()
 
-        plt.subplot(2, 2, j+1)
-        # plt.errorbar(mass_med, sfr_med, xerr=mass_err, yerr=sfr_err, fmt='o', c=colours[j], markersize=1, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
-        plt.scatter(mass_med, sfr_med, s=15,marker=symbols[j] ,c=colours[j], label=f'Stage {j+1}')
-        plt.legend()
-    
-    plt.suptitle(f'Star formation rates in each stage of \n mergers within the COSMOS survey for z<1.5, n={n}')
-    plt.xlabel('log Stellar Mass')
-    plt.ylabel('log Star Formation Rate')
+    ax2 = plt.subplot(222, sharex=ax1, sharey=ax1)
+    plt.plot(plt_data[1][0], plt_data[1][1], ms=3, linestyle='', marker=symbols[1], alpha=0.4, fillstyle='none' ,c=colours[1], label=f'Stage {2}')
+    plt.tick_params('y', labelleft=False)
+    plt.tick_params('x', labelbottom=False)
+    plt.legend()
+
+    ax3 = plt.subplot(223, sharex=ax1, sharey=ax1)
+    plt.plot(plt_data[2][0], plt_data[2][1], ms=3, linestyle='', marker=symbols[2], alpha=0.4, fillstyle='none' ,c=colours[2], label=f'Stage {3}')
+    plt.xlabel(r'log $M_{\bigstar}$')
+    plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
+    plt.legend()
+
+    ax4 = plt.subplot(224, sharex=ax1, sharey=ax1)
+    plt.plot(plt_data[3][0], plt_data[3][1], ms=3, linestyle='', marker=symbols[3], alpha=0.4, fillstyle='none' ,c=colours[3], label=f'Stage {4}')
+    plt.xlabel(r'log $M_{\bigstar}$')
+    plt.tick_params('y', labelleft=False)
+    plt.legend()
+
+    plt.suptitle(f'Star formation rates against stellar mass in each stage of \n mergers within the COSMOS survey for z<1.5, n={n}')
+    plt.ylim(-6.5, 3.5)
     plt.show()
 
 mydata = data_gather()
