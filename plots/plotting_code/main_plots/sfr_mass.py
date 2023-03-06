@@ -148,7 +148,7 @@ def generate_plot_z_limit(old_data, z_limit=1.5):
     plt.tick_params('y', labelleft=False)
     plt.legend()
 
-    plt.suptitle(f'Star formation rates against stellar mass in each stage of \n mergers within the COSMOS survey for z<1.5, n={n}')
+    plt.suptitle(f'Star formation rates against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5, n={n}')
     plt.ylim(-6.5, 3.5)
     plt.show()
 
