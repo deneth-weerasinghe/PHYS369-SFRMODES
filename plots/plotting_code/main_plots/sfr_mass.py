@@ -62,7 +62,7 @@ def generate_plot(data, n):
     plt.legend()
     plt.show()
 
-def generate_plot_z_limit(data, n):
+def generate_plot_z_limit(data):
 
     plt_data = []
     for i in data:
@@ -73,30 +73,30 @@ def generate_plot_z_limit(data, n):
 
     ms = 5
     ax1 = plt.subplot(221)
-    plt.plot(plt_data[0][0], plt_data[0][1], linestyle='', ms=ms, marker=symbols[0], alpha=0.4, fillstyle='none' ,c=colours[0], label=f'Stage {1}')
+    plt.plot(plt_data[0][0], plt_data[0][1], linestyle='', ms=ms, marker=symbols[0], alpha=0.4, fillstyle='none' ,c=colours[0], label=f'Stage {1}, n={plt_data[0][0]}')
     plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
     plt.tick_params('x', labelbottom=False)
     plt.legend()
 
     ax2 = plt.subplot(222, sharex=ax1, sharey=ax1)
-    plt.plot(plt_data[1][0], plt_data[1][1], ms=ms, linestyle='', marker=symbols[1], alpha=0.4, fillstyle='none' ,c=colours[1], label=f'Stage {2}')
+    plt.plot(plt_data[1][0], plt_data[1][1], ms=ms, linestyle='', marker=symbols[1], alpha=0.4, fillstyle='none' ,c=colours[1], label=f'Stage {2}, n={plt_data[1][0]}')
     plt.tick_params('y', labelleft=False)
     plt.tick_params('x', labelbottom=False)
     plt.legend()
 
     ax3 = plt.subplot(223, sharex=ax1, sharey=ax1)
-    plt.plot(plt_data[2][0], plt_data[2][1], ms=ms, linestyle='', marker=symbols[2], alpha=0.4, fillstyle='none' ,c=colours[2], label=f'Stage {3}')
+    plt.plot(plt_data[2][0], plt_data[2][1], ms=ms, linestyle='', marker=symbols[2], alpha=0.4, fillstyle='none' ,c=colours[2], label=f'Stage {3}, n={plt_data[2][0]}')
     plt.xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
     plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
     plt.legend()
 
     ax4 = plt.subplot(224, sharex=ax1, sharey=ax1)
-    plt.plot(plt_data[3][0], plt_data[3][1], ms=ms, linestyle='', marker=symbols[3], alpha=0.4, fillstyle='none' ,c=colours[3], label=f'Stage {4}')
+    plt.plot(plt_data[3][0], plt_data[3][1], ms=ms, linestyle='', marker=symbols[3], alpha=0.4, fillstyle='none' ,c=colours[3], label=f'Stage {4}, n={plt_data[3][0]}')
     plt.xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
     plt.tick_params('y', labelleft=False)
     plt.legend()
 
-    plt.suptitle(f'Star formation rates of primary galaxy against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5, n={n}')
+    plt.suptitle('Star formation rates of primary galaxy against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5')
     plt.ylim(-6.5, 3.5)
     plt.show()
 
@@ -151,5 +151,5 @@ plot_data = generate_variables(raw_data)
 # generate_plot(plot_data, num)
 
 plot_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
-generate_plot_z_limit(plot_data, num)
+generate_plot_z_limit(plot_data)
 
