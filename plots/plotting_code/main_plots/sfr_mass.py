@@ -3,13 +3,13 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 
-path = os.getcwd()
+path = os.getcwd() + '/PHYS369-SFRMODES'
 
 def data_gather():
 
     data = []
 
-    with open(path + '/PHYS369-SFRMODES/data/csv/group_cosmos_with_main_cosmos_matches_OUT2.csv', newline='') as csvfile:
+    with open(path + '/data/csv/group_cosmos_with_main_cosmos_matches_OUT2.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC)
 
         next(reader)
@@ -43,10 +43,6 @@ def data_gather():
                 stage = 4
             data.append([row[19], row[20], row[21], row[22], row[23], row[24], row[25], row[26], stage, row[11]])
     return data
-
-
-
-
 
 def generate_plot(data, n):
 
@@ -119,7 +115,7 @@ def generate_separate(data):
         ax_hist_x.tick_params(axis='x', bottom=False, labelbottom=False)
         ax_hist_y.tick_params(axis='y', left=False, labelleft=False)
 
-        ax.plot(j[0], j[1], ms=ms, linestyle='', marker=symbols[n], alpha=0.4, fillstyle='none' ,c=colours[n], label=f'Stage {n}')
+        ax.plot(j[0], j[1], ms=ms, linestyle='', marker=symbols[n], alpha=0.4, fillstyle='none' ,c=colours[n], label=f'Stage {n+1}')
         ax.set_xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
         ax.set_ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
         ax.set_ylim(-6.5, 3.5)
@@ -132,7 +128,9 @@ def generate_separate(data):
         bins = np.arange(-lim, lim + binwidth, binwidth)
         ax_hist_x.hist(j[0], bins=bins, color=colours[n])
         ax_hist_y.hist(j[1], bins=bins, color=colours[n], orientation='horizontal')
+        plt.savefig(path+f'/plots/output/stage_{n+1}')
         plt.show()
+
 
 def generate_variables(old_data, isFiltering=False, z_lim=None):
 
@@ -175,12 +173,11 @@ def generate_variables(old_data, isFiltering=False, z_lim=None):
     
     return output
 
-
-raw_data = data_gather()
+raw_data = data_gather()  # gathers the data from the csv
 
 num = len(raw_data)
 
-plot_data = generate_variables(raw_data)
+plot_data = generate_variables(raw_data)  # formats data so it's useful for the plotting function
 
 # generate_plot(plot_data, num)  # plots with all stages on same graph
 
