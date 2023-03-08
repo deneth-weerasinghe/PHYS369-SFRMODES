@@ -1,6 +1,7 @@
 import os
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 
 path = os.getcwd()
 
@@ -66,10 +67,6 @@ def generate_plot(data, n):
 
 def generate_plot_z_limit(data):
 
-    plt_data = []
-    for i in data:
-        plt_data.append([i[0], i[1]])  # creates list containing only
-
     colours = ['red', 'blue', 'green', 'purple']
     symbols = ['o', '^', 's', 'D']
 
@@ -101,6 +98,41 @@ def generate_plot_z_limit(data):
     plt.suptitle('Star formation rates of primary galaxy against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5')
     plt.ylim(-6.5, 3.5)
     plt.show()
+
+def generate_separate(data):
+
+    colours = ['red', 'blue', 'green', 'purple']
+    symbols = ['o', '^', 's', 'D']
+
+    ms = 5
+
+    for n, j in enumerate(data):
+        fig = plt.figure()
+        fig.suptitle(f'Star formation rates of primary galaxies of stage {n+1}\nmergers in COSMOS, n={len(j[0])}')
+        gs = fig.add_gridspec(2, 2, width_ratios=(4, 1), height_ratios=(1, 4),
+                              left=0.1, right=0.9, bottom=0.1, top=0.9,
+                              wspace=0.05, hspace=0.05)
+        ax = fig.add_subplot(gs[1, 0])
+        ax_hist_x = fig.add_subplot(gs[0, 0], sharex=ax)
+        ax_hist_y = fig.add_subplot(gs[1, 1], sharey=ax)
+
+        ax_hist_x.tick_params(axis='x', bottom=False, labelbottom=False)
+        ax_hist_y.tick_params(axis='y', left=False, labelleft=False)
+
+        ax.plot(j[0], j[1], ms=ms, linestyle='', marker=symbols[n], alpha=0.4, fillstyle='none' ,c=colours[n], label=f'Stage {n}')
+        ax.set_xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
+        ax.set_ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
+        ax.set_ylim(-6.5, 3.5)
+        ax.set_xlim(6.5, 12)
+        
+        binwidth = 0.25
+        xymax = max(np.max(np.abs(j[0])), np.max(np.abs(j[1])))
+        lim = (int(xymax/binwidth) + 1) * binwidth
+
+        bins = np.arange(-lim, lim + binwidth, binwidth)
+        ax_hist_x.hist(j[0], bins=bins, color=colours[n])
+        ax_hist_y.hist(j[1], bins=bins, color=colours[n], orientation='horizontal')
+        plt.show()
 
 def generate_variables(old_data, isFiltering=False, z_lim=None):
 
@@ -150,8 +182,12 @@ num = len(raw_data)
 
 plot_data = generate_variables(raw_data)
 
-generate_plot(plot_data, num)  # plots with all stages on same graph
+# generate_plot(plot_data, num)  # plots with all stages on same graph
 
-plot_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
-# generate_plot_z_limit(plot_data)  # generates 4 subplots, one for each stage
+filtered_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
+# generate_plot_z_limit(filtered_data)  # generates 4 subplots, one for each stage
+
+generate_separate(filtered_data)
+
+
 
