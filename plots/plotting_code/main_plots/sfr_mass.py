@@ -125,9 +125,10 @@ def generate_separate(data):
         xymax = max(np.max(np.abs(j[0])), np.max(np.abs(j[1])))
         lim = (int(xymax/binwidth) + 1) * binwidth
 
-        bins = np.arange(-lim, lim + binwidth, binwidth)
-        ax_hist_x.hist(j[0], bins=bins, color=colours[n])
-        ax_hist_y.hist(j[1], bins=bins, color=colours[n], orientation='horizontal')
+        bins_x = np.arange(-lim, lim + binwidth, 0.1)
+        bins_y = np.arange(-lim, lim + binwidth, binwidth)
+        ax_hist_x.hist(j[0], bins=bins_x, color=colours[n])
+        ax_hist_y.hist(j[1], bins=bins_y, color=colours[n], orientation='horizontal')
         plt.savefig(path+f'/plots/output/stage_{n+1}')
         plt.show()
 
