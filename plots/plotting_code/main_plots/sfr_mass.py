@@ -50,9 +50,11 @@ def data_gather():
 def generate_plot(data, n):
 
     colours = ['red', 'blue', 'green', 'purple']
+    symbols = ['o', '^', 's', 'D']
+
 
     for j in range(0, 4):
-        plt.errorbar(data[j][0], data[j][1], xerr=data[j][2], yerr=data[j][3], fmt='o', c=colours[j], markersize=1, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
+        plt.errorbar(data[j][0], data[j][1], fmt=symbols[j], c=colours[j], alpha=0.4, fillstyle='none', markersize=5, ecolor='black', elinewidth=1, label=f'Stage {j+1}')
         # plt.scatter(mass_med, sfr_med, s=5, c=colours[j], label=f'Stage {j+1}')
     
     plt.title('Star formation rates in each stage of mergers within the COSMOS survey')
@@ -66,35 +68,35 @@ def generate_plot_z_limit(data):
 
     plt_data = []
     for i in data:
-        plt_data.append([i[0], i[1]])
+        plt_data.append([i[0], i[1]])  # creates list containing only
 
     colours = ['red', 'blue', 'green', 'purple']
     symbols = ['o', '^', 's', 'D']
 
     ms = 5
     ax1 = plt.subplot(221)
-    plt.plot(plt_data[0][0], plt_data[0][1], linestyle='', ms=ms, marker=symbols[0], alpha=0.4, fillstyle='none' ,c=colours[0], label=f'Stage {1}, n={plt_data[0][0]}')
+    plt.plot(data[0][0], data[0][1], linestyle='', ms=ms, marker=symbols[0], alpha=0.4, fillstyle='none' ,c=colours[0], label=f'Stage {1}\nn={len(data[0][0])}')
     plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
     plt.tick_params('x', labelbottom=False)
-    plt.legend()
+    plt.legend(loc='lower left')
 
     ax2 = plt.subplot(222, sharex=ax1, sharey=ax1)
-    plt.plot(plt_data[1][0], plt_data[1][1], ms=ms, linestyle='', marker=symbols[1], alpha=0.4, fillstyle='none' ,c=colours[1], label=f'Stage {2}, n={plt_data[1][0]}')
+    plt.plot(data[1][0], data[1][1], ms=ms, linestyle='', marker=symbols[1], alpha=0.4, fillstyle='none' ,c=colours[1], label=f'Stage {2}\nn={len(data[1][0])}')
     plt.tick_params('y', labelleft=False)
     plt.tick_params('x', labelbottom=False)
-    plt.legend()
+    plt.legend(loc='lower left')
 
     ax3 = plt.subplot(223, sharex=ax1, sharey=ax1)
-    plt.plot(plt_data[2][0], plt_data[2][1], ms=ms, linestyle='', marker=symbols[2], alpha=0.4, fillstyle='none' ,c=colours[2], label=f'Stage {3}, n={plt_data[2][0]}')
+    plt.plot(data[2][0], data[2][1], ms=ms, linestyle='', marker=symbols[2], alpha=0.4, fillstyle='none' ,c=colours[2], label=f'Stage {3}\nn={len(data[2][0])}')
     plt.xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
     plt.ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
-    plt.legend()
+    plt.legend(loc='lower left')
 
     ax4 = plt.subplot(224, sharex=ax1, sharey=ax1)
-    plt.plot(plt_data[3][0], plt_data[3][1], ms=ms, linestyle='', marker=symbols[3], alpha=0.4, fillstyle='none' ,c=colours[3], label=f'Stage {4}, n={plt_data[3][0]}')
+    plt.plot(data[3][0], data[3][1], ms=ms, linestyle='', marker=symbols[3], alpha=0.4, fillstyle='none' ,c=colours[3], label=f'Stage {4}\nn={len(data[3][0])}')
     plt.xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
     plt.tick_params('y', labelleft=False)
-    plt.legend()
+    plt.legend(loc='lower left')
 
     plt.suptitle('Star formation rates of primary galaxy against stellar mass in each stage of mergers\n within the COSMOS survey for redshift volume 0<z<1.5')
     plt.ylim(-6.5, 3.5)
@@ -148,8 +150,8 @@ num = len(raw_data)
 
 plot_data = generate_variables(raw_data)
 
-# generate_plot(plot_data, num)
+generate_plot(plot_data, num)  # plots with all stages on same graph
 
 plot_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
-generate_plot_z_limit(plot_data)
+# generate_plot_z_limit(plot_data)  # generates 4 subplots, one for each stage
 
