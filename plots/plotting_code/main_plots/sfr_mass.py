@@ -2,6 +2,7 @@ import os
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 path = os.getcwd() + '/PHYS369-SFRMODES'
 
@@ -104,6 +105,8 @@ def generate_separate(data):
 
     for n, j in enumerate(data):
         fig = plt.figure()
+
+        # Figure settings
         fig.suptitle(f'Star formation rates of primary galaxies of stage {n+1}\nmergers in COSMOS, n={len(j[0])}')
         gs = fig.add_gridspec(2, 2, width_ratios=(4, 1), height_ratios=(1, 4),
                               left=0.1, right=0.9, bottom=0.1, top=0.9,
@@ -112,23 +115,31 @@ def generate_separate(data):
         ax_hist_x = fig.add_subplot(gs[0, 0], sharex=ax)
         ax_hist_y = fig.add_subplot(gs[1, 1], sharey=ax)
 
+        # Histogram axes
         ax_hist_x.tick_params(axis='x', bottom=False, labelbottom=False)
         ax_hist_y.tick_params(axis='y', left=False, labelleft=False)
 
+        # Scatter plot
         ax.plot(j[0], j[1], ms=ms, linestyle='', marker=symbols[n], alpha=0.4, fillstyle='none' ,c=colours[n], label=f'Stage {n+1}')
         ax.set_xlabel(r'log $M_{\bigstar}$ [$M_{\bigodot}$]')
         ax.set_ylabel(r'log SFR [$M_{\bigodot} yr^{-1}]$')
         ax.set_ylim(-6.5, 3.5)
-        ax.set_xlim(6.5, 12)
-        
-        binwidth = 0.25
-        xymax = max(np.max(np.abs(j[0])), np.max(np.abs(j[1])))
-        lim = (int(xymax/binwidth) + 1) * binwidth
+        ax.set_xlim(6.5, 12.5)
 
-        bins_x = np.arange(-lim, lim + binwidth, 0.1)
+        # ax.contour(j[0], j[1])
+        
+        # Histogram
+        binwidth = 0.25
+        xymax = max(max(j[0]), max(j[1]))
+        lim = (int(xymax/binwidth) + 1) * binwidth
+        bins_x = np.arange(-lim, lim + binwidth, 0.15)
         bins_y = np.arange(-lim, lim + binwidth, binwidth)
-        ax_hist_x.hist(j[0], bins=bins_x, color=colours[n])
-        ax_hist_y.hist(j[1], bins=bins_y, color=colours[n], orientation='horizontal')
+        ax_hist_x.hist(j[0], bins=bins_x, color=colours[n], density=True)
+        ax_hist_y.hist(j[1], bins=bins_y, color=colours[n], density=True, orientation='horizontal')
+
+        ax_hist_x.set_ylabel('Probability density')
+        ax_hist_y.set_xlabel('Probability density')
+        
         plt.savefig(path+f'/plots/output/stage_{n+1}')
         plt.show()
 
