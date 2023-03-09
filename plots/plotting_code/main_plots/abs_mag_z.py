@@ -139,12 +139,13 @@ def generate_i_band(data):
     z_upp_err = [i[2] - i[0] for i in data]
     z_err = [z_low_err, z_upp_err]
 
-    plt.errorbar(z_pdf, i_mag, xerr=z_err, c='red',fmt='.', markersize=5, ecolor='black', elinewidth=1,label='i-mag')
+    plt.errorbar(z_pdf, i_mag, alpha=0.4, c='red',fmt='.', markersize=3, ecolor='black', elinewidth=1,label='i-mag')
+    plt.plot([1.5] * (-10 - -27), [-10 - i for i in range(0, 17)], linestyle='--', c='black')
     plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
     plt.xlabel('Redshift')
     plt.ylabel('Absolute magnitude')
+    plt.ylim(-26, -10)
     plt.text(3, -12, f'n={n}', fontsize=25)
-    plt.legend()
     ax = plt.gca()
     ax.invert_yaxis()
     
