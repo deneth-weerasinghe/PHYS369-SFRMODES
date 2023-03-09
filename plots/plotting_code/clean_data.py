@@ -1,6 +1,10 @@
 import os
 import csv
 
+'''
+Removes any field that has at least one missing entry for any column
+'''
+
 path = os.getcwd()
 
 def clean_data():

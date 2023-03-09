@@ -2,6 +2,9 @@ import csv
 import pandas as pd
 import os
 
+'''
+Script to merge together each member's mergers that have been classified into each stage
+'''
 path = os.getcwd()  # obtains path of top-level directory from which all subdirectories can be accessed
 
 subpath = path + "/data/csv/group_subsets/"

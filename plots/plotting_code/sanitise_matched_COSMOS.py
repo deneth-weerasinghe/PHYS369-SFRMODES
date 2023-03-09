@@ -1,6 +1,13 @@
 import os
 import csv
 
+'''
+Script to check:
+    1. If stage 4 fields have secondary values, if so, rewrite them to be blank
+    2. If secondary mass is greater than primary, if so swap out all secondary with primary columns,
+    as the primary galaxy is by definition the more massive one
+'''
+
 path = os.getcwd()
 
 def write_column_key():
