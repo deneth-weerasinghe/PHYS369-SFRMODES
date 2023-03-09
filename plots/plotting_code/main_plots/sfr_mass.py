@@ -126,7 +126,8 @@ def generate_separate(data):
         ax.set_ylim(-6.5, 3.5)
         ax.set_xlim(6.5, 12.5)
 
-        # ax.contour(j[0], j[1])
+        # Countour plot
+        sns.kdeplot(x=j[0], y=j[1], ax=ax, color='black', levels=[1-0.95, 1-0.90, 1-0.68])
         
         # Histogram
         binwidth = 0.25
