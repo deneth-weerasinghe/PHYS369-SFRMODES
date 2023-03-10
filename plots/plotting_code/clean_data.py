@@ -2,7 +2,7 @@ import os
 import csv
 
 '''
-Removes any field that has at least one missing entry for any column
+Removes any record that has at least one missing entry for any fields
 '''
 
 path = os.getcwd()
