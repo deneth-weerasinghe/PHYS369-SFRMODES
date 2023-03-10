@@ -110,14 +110,16 @@ def generate_plot(data):
     z_upp_err = [i[2] - i[0] for i in data]
     z_err = [z_low_err, z_upp_err]
 
-    plt.scatter(z_pdf, i_mag, c='red',s=1, label='i-mag')
-    plt.scatter(z_pdf, z_mag, c='blue',s=1, label='z-mag')
-    plt.scatter(z_pdf, k_mag, c='green',s=1, label='k-mag')
+    alpha = 0.4
+    s = 1
+    plt.scatter(z_pdf, i_mag, alpha=alpha, c='red',s=s, label='i-mag')
+    plt.scatter(z_pdf, z_mag, alpha=alpha, c='blue',s=s, label='z-mag')
+    plt.scatter(z_pdf, k_mag, alpha=alpha, c='green',s=s, label='k-mag')
     plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
-    plt.xlabel('Redshift')
+    plt.xlabel('Redshift, z')
     plt.ylabel('Absolute magnitude')
     plt.text(3, -12, f'n={n}', fontsize=25)
-    plt.legend()
+    plt.legend(markerscale=10)
     ax = plt.gca()
     ax.invert_yaxis()
     
@@ -139,10 +141,10 @@ def generate_i_band(data):
     z_upp_err = [i[2] - i[0] for i in data]
     z_err = [z_low_err, z_upp_err]
 
-    plt.errorbar(z_pdf, i_mag, alpha=0.4, c='red',fmt='.', markersize=3, ecolor='black', elinewidth=1,label='i-mag')
+    plt.errorbar(z_pdf, i_mag, xerr=z_err, alpha=0.4, c='red',fmt='.', markersize=3, ecolor='black', elinewidth=1,label='i-mag')
     plt.plot([1.5] * (-10 - -27), [-10 - i for i in range(0, 17)], linestyle='--', c='black')
     plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
-    plt.xlabel('Redshift')
+    plt.xlabel('Redshift, z')
     plt.ylabel('Absolute magnitude')
     plt.ylim(-26, -10)
     plt.text(3, -12, f'n={n}', fontsize=25)
@@ -155,5 +157,5 @@ def generate_i_band(data):
 mydata = data_gather()
 # print(len(mydata))
 # generate_subplots(mydata)
-# generate_plot(mydata)
-generate_i_band(mydata)
+generate_plot(mydata)
+# generate_i_band(mydata)
