@@ -146,14 +146,14 @@ def generate_separate(data):
 
 
 def generate_variables(old_data, isFiltering=False, z_lim=None):
-
+    
+    data = old_data
     if isFiltering:
         data = []
         for i in old_data:  # filters out data that doesn't fall in the z volume bin
             if i[9] < z_lim:
                 data.append(i)
     
-    data = old_data
     stage_ones = []  # list containing all indices corresponding to stage 1
     stage_twos = []  # likewise for stage 2
     stage_threes = []  # ^
@@ -192,13 +192,14 @@ num = len(raw_data)
 
 plot_data = generate_variables(raw_data)  # formats data so it's useful for the plotting function
 
-generate_plot(plot_data, num)  # plots with all stages on same graph
+# generate_plot(plot_data, num)  # plots with all stages on same graph
 
 filtered_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
 
+# print(len(plot_data[0][0]), len(filtered_data[0][0]))
 # generate_plot_z_limit(filtered_data)  # generates 4 subplots, one for each stage
 
-# generate_separate(filtered_data)
+generate_separate(filtered_data)
 
 
 
