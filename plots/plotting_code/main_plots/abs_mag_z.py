@@ -31,8 +31,8 @@ def data_gather():
         14 | zminchi2_1 | z value from chi^2
         15 | chi2_best_1 | reduced chi^2 for zminchi^2
         16 | m_i_1 | absolute magnitude in i band
-        17 | m_i_1 | absolute magnitude in z band
-        18 | m_i_1 | absolute magnitude in k band
+        17 | m_z_1 | absolute magnitude in z band
+        18 | m_k_1 | absolute magnitude in k band
         30 | type_2 | 0 = galaxy, 1 = star, 2 = X-ray source (secondary)
         '''
 
