@@ -107,7 +107,7 @@ def generate_separate(data):
         fig = plt.figure()
 
         # Figure settings
-        fig.suptitle(f'Star formation rates of primary galaxies of stage {n+1}\nmergers in COSMOS, n={len(j[0])}')
+        # fig.suptitle(f'Star formation rates of primary galaxies of stage {n+1}\nmergers in COSMOS, n={len(j[0])}')
         gs = fig.add_gridspec(2, 2, width_ratios=(4, 1), height_ratios=(1, 4),
                               left=0.1, right=0.9, bottom=0.1, top=0.9,
                               wspace=0.05, hspace=0.05)
