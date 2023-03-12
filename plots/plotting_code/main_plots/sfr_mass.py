@@ -62,7 +62,7 @@ def generate_plot(data, n):
     plt.legend(markerscale=2)
     plt.show()
 
-def generate_plot_z_limit(data):
+def generate_plot_subplot(data):
 
     colours = ['red', 'blue', 'green', 'purple']
     symbols = ['o', '^', 's', 'D']
@@ -144,8 +144,7 @@ def generate_separate(data):
         plt.savefig(path+f'/plots/output/stage_{n+1}')
         plt.show()
 
-
-def generate_variables(old_data, isFiltering=False, z_lim=None):
+def data_formatting(old_data, isFiltering=False, z_lim=None):
     
     data = old_data
     if isFiltering:
@@ -190,14 +189,14 @@ raw_data = data_gather()  # gathers the data from the csv
 
 num = len(raw_data)
 
-plot_data = generate_variables(raw_data)  # formats data so it's useful for the plotting function
+plot_data = data_formatting(raw_data)  # formats data so it's useful for the plotting function
 
 # generate_plot(plot_data, num)  # plots with all stages on same graph
 
-filtered_data = generate_variables(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
+filtered_data = data_formatting(raw_data, isFiltering = True, z_lim=1.5)  # redefines plot_data to have the filtered values
 
 # print(len(plot_data[0][0]), len(filtered_data[0][0]))
-# generate_plot_z_limit(filtered_data)  # generates 4 subplots, one for each stage
+# generate_plot_subplot(filtered_data)  # generates 4 subplots, one for each stage
 
 generate_separate(filtered_data)
 
