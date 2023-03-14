@@ -198,7 +198,15 @@ filtered_data = data_formatting(raw_data, isFiltering = True, z_lim=1.5)  # rede
 # print(len(plot_data[0][0]), len(filtered_data[0][0]))
 # generate_plot_subplot(filtered_data)  # generates 4 subplots, one for each stage
 
-generate_separate(filtered_data)
+# generate_separate(filtered_data)
 
+def save_filtered_data(data):
+    for m, i in enumerate(data):
+        with open(path + f'/data/csv/stage_{m+1}.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(['mass', 'sfr'])
 
+            for n, j in enumerate(i[0]):
+                writer.writerow([j, i[1][n]])
 
+save_filtered_data(filtered_data)
