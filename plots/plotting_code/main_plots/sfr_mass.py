@@ -138,9 +138,6 @@ def generate_separate(data):
         ax_hist_x.hist(j[0], bins=bins_x, color=colours[n], density=True)
         ax_hist_y.hist(j[1], bins=bins_y, color=colours[n], density=True, orientation='horizontal')
 
-        ax_hist_x.set_ylabel('Probability density')
-        ax_hist_y.set_xlabel('Probability density')
-        
         plt.savefig(path+f'/plots/output/stage_{n+1}')
         plt.show()
 
@@ -185,6 +182,15 @@ def data_formatting(old_data, isFiltering=False, z_lim=None):
     
     return output
 
+def save_filtered_data(data):
+    for m, i in enumerate(data):
+        with open(path + f'/data/csv/stage_{m+1}.csv', 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(['mass', 'sfr'])
+
+            for n, j in enumerate(i[0]):
+                writer.writerow([j, i[1][n]])
+
 raw_data = data_gather()  # gathers the data from the csv
 
 num = len(raw_data)
@@ -198,15 +204,7 @@ filtered_data = data_formatting(raw_data, isFiltering = True, z_lim=1.5)  # rede
 # print(len(plot_data[0][0]), len(filtered_data[0][0]))
 # generate_plot_subplot(filtered_data)  # generates 4 subplots, one for each stage
 
-# generate_separate(filtered_data)
+generate_separate(filtered_data)
 
-def save_filtered_data(data):
-    for m, i in enumerate(data):
-        with open(path + f'/data/csv/stage_{m+1}.csv', 'w') as f:
-            writer = csv.writer(f)
-            writer.writerow(['mass', 'sfr'])
 
-            for n, j in enumerate(i[0]):
-                writer.writerow([j, i[1][n]])
-
-save_filtered_data(filtered_data)
+# save_filtered_data(filtered_data)
