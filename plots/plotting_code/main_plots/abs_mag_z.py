@@ -143,9 +143,9 @@ def generate_i_band(data):
 
     plt.errorbar(z_pdf, i_mag, alpha=0.4, c='red',fmt='.', markersize=3, ecolor='black', elinewidth=1,label='i-mag')
     plt.plot([1.5] * (-10 - -27), [-10 - i for i in range(0, 17)], linestyle='--', c='black')
-    plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
+    # plt.title(f'Absolute magnitudes of primary galaxy in selected mergers \nin COSMOS against redshift')
     plt.xlabel('Redshift, z')
-    plt.ylabel('Absolute magnitude, m')
+    plt.ylabel('Absolute i-band magnitude, m')
     plt.ylim(-26, -10)
     plt.text(3, -12, f'n={n}', fontsize=25)
     ax = plt.gca()
